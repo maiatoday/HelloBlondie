@@ -22,26 +22,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        fab.setOnClickListener {
+            val searchString = editSearchString.text.toString()
+            doSearch(searchString)
         }
+        
         buttonCallMe.setOnClickListener {
             val searchString = editSearchString.text.toString()
-            if (!searchString.isEmpty()) {
-                val call = Api.create().hitCountCheck("query", "json", "search", searchString)
-                call.enqueue(object : Callback<Model.Result> {
-                    override fun onResponse(call: Call<Model.Result>?, response: Response<Model.Result>?) {
-                        val result = response?.body() as Model.Result
-                        txtAnytime.text = result.query.search[0].title + " hitcount=" + result.query.searchinfo.totalhits + " pageId="+result.query.search[0].pageid
-                    }
-
-                    override fun onFailure(call: Call<Model.Result>?, t: Throwable?) {
-                        txtAnytime.text = "oops"
-                    }
-                })
-
-            }
+            doSearch(searchString)
         }
     }
 
@@ -58,6 +46,23 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun doSearch(searchString: String) {
+        if (!searchString.isEmpty()) {
+            val call = Api.create().hitCountCheck("query", "json", "search", searchString)
+            call.enqueue(object : Callback<Model.Result> {
+                override fun onResponse(call: Call<Model.Result>?, response: Response<Model.Result>?) {
+                    val result = response?.body() as Model.Result
+                    txtAnytime.text = result.query.search[0].title + " hitcount=" + result.query.searchinfo.totalhits + " pageId=" + result.query.search[0].pageid
+                }
+
+                override fun onFailure(call: Call<Model.Result>?, t: Throwable?) {
+                    txtAnytime.text = "oops"
+                }
+            })
+
         }
     }
 }
