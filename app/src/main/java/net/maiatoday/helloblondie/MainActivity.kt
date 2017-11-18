@@ -5,11 +5,15 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import net.maiatoday.helloblondie.data.Api
 import net.maiatoday.helloblondie.data.Model
+import net.maiatoday.permissions.AppPermission
+import net.maiatoday.permissions.handlePermission
+import net.maiatoday.permissions.requestPermission
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,14 +27,24 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener {
-            val searchString = editSearchString.text.toString()
-            doSearch(searchString)
+            doSearchWithPermissionCheck()
+
         }
-        
+
         buttonCallMe.setOnClickListener {
             val searchString = editSearchString.text.toString()
             doSearch(searchString)
         }
+    }
+
+    private fun doSearchWithPermissionCheck() {
+        handlePermission(AppPermission.WRITE_EXTERNAL_STORAGE,
+                {
+                    val searchString = editSearchString.text.toString()
+                    doSearch(searchString)
+                },
+                { requestPermission(it) },
+                { snackbarWithAction(contentView, it.explanationMessageId) { requestPermission(it) } })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -64,5 +78,11 @@ class MainActivity : AppCompatActivity() {
             })
 
         }
+    }
+
+    fun snackbarWithAction(view: View, messageId: Int, actionText: Int = R.string.request_permission, action: () -> Unit) {
+        Snackbar.make(view, messageId, Snackbar.LENGTH_LONG)
+                .setAction(actionText) { action() }
+                .show()
     }
 }
