@@ -48,32 +48,32 @@ inline fun android.app.Fragment.handlePermission(permission: AppPermission,
  * HANDLE PERMISSIONS IN v4 FRAGMENTS *
  *************************************/
 
-fun android.support.v4.app.Fragment.isPermissionGranted(permission: AppPermission) = (PermissionChecker.checkSelfPermission(activity, permission.permissionName) == PackageManager.PERMISSION_GRANTED)
-
-fun android.support.v4.app.Fragment.isRationaleNeeded(permission: AppPermission) = shouldShowRequestPermissionRationale(activity, permission.permissionName)
-
-fun android.support.v4.app.Fragment.requestPermission(permission: AppPermission) = requestPermissions(arrayOf(permission.permissionName), permission.requestCode)
-
-inline fun android.support.v4.app.Fragment.handlePermission(permission: AppPermission,
-                                                            onGranted: (AppPermission) -> Unit,
-                                                            onDenied: (AppPermission) -> Unit,
-                                                            onRationaleNeeded: (AppPermission) -> Unit) {
-    when {
-        isLollipopOrBellow() || isPermissionGranted(permission) -> onGranted(permission)
-        isRationaleNeeded(permission) -> onRationaleNeeded(permission)
-        else -> onDenied(permission)
-    }
-}
-
-inline fun android.support.v4.app.Fragment.handlePermission(permission: AppPermission,
-                                                            onGranted: (AppPermission) -> Unit,
-                                                            onRationaleNeeded: (AppPermission) -> Unit) {
-    when {
-        isLollipopOrBellow() || isPermissionGranted(permission) -> onGranted(permission)
-        isRationaleNeeded(permission) -> onRationaleNeeded(permission)
-        else -> requestPermission(permission)
-    }
-}
+//fun android.support.v4.app.Fragment.isPermissionGranted(permission: AppPermission) = (PermissionChecker.checkSelfPermission(activity, permission.permissionName) == PackageManager.PERMISSION_GRANTED)
+//
+//fun android.support.v4.app.Fragment.isRationaleNeeded(permission: AppPermission) = shouldShowRequestPermissionRationale(activity, permission.permissionName)
+//
+//fun android.support.v4.app.Fragment.requestPermission(permission: AppPermission) = requestPermissions(arrayOf(permission.permissionName), permission.requestCode)
+//
+//inline fun android.support.v4.app.Fragment.handlePermission(permission: AppPermission,
+//                                                            onGranted: (AppPermission) -> Unit,
+//                                                            onDenied: (AppPermission) -> Unit,
+//                                                            onRationaleNeeded: (AppPermission) -> Unit) {
+//    when {
+//        isLollipopOrBellow() || isPermissionGranted(permission) -> onGranted(permission)
+//        isRationaleNeeded(permission) -> onRationaleNeeded(permission)
+//        else -> onDenied(permission)
+//    }
+//}
+//
+//inline fun android.support.v4.app.Fragment.handlePermission(permission: AppPermission,
+//                                                            onGranted: (AppPermission) -> Unit,
+//                                                            onRationaleNeeded: (AppPermission) -> Unit) {
+//    when {
+//        isLollipopOrBellow() || isPermissionGranted(permission) -> onGranted(permission)
+//        isRationaleNeeded(permission) -> onRationaleNeeded(permission)
+//        else -> requestPermission(permission)
+//    }
+//}
 
 /************************************
  * HANDLE PERMISSIONS IN ACTIVITIES *
