@@ -1,5 +1,7 @@
 object Versions {
     val gradlePluginVersion = "3.2.0-alpha08"
+    val apolloVersion = "0.4.4"
+
     val okhttpVersion =   "3.9.0"
     val retrofitVersion = "2.3.0"
     val supportLibVersion =  "27.1.0"
@@ -16,6 +18,7 @@ object Libs {
     // plugins
     val plugin_android_gradle = "com.android.tools.build:gradle:${Versions.gradlePluginVersion}"
     val plugin_kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}"
+    val plugin_apollo = "com.apollographql.apollo:apollo-gradle-plugin:${Versions.apolloVersion}"
 
     // kotlin
     val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jre7:${Versions.kotlinVersion}"
@@ -35,6 +38,7 @@ object Libs {
     val gson_converter = "com.squareup.retrofit2:converter-gson:${Versions.retrofitVersion}"
 
     //other
+    val apollo_runtime = "com.apollographql.apollo:apollo-runtime:${Versions.apolloVersion}"
 
     // testing
     val junit =  "junit:junit:${Versions.junitVersion}"
