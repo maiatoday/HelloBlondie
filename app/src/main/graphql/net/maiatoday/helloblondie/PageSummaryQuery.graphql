@@ -1,0 +1,8 @@
+query PageSummary($search: String!) {
+  page(project:"en", title: $search) {
+    summary {
+      displaytitle
+      extract
+    }
+  }
+}

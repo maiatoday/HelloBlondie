@@ -49,5 +49,6 @@ dependencies {
         exclude module: 'okhttp'
     }
     implementation Libs.gson_converter
+    implementation Libs.apollo_runtime
 
 }
