@@ -40,15 +40,10 @@ dependencies {
     androidTestImplementation Libs.test_runner
     androidTestImplementation Libs.espresso_core
 
-    // retrofit
+    // network
     implementation Libs.okhttp
     implementation Libs.okhttp_logging_interceptor
-
-    implementation(Libs.retrofit) {
-        // exclude Retrofit’s OkHttp peer-dependency module and define your own module import
-        exclude module: 'okhttp'
-    }
-    implementation Libs.gson_converter
+    //implementation Libs.gson_converter
     implementation Libs.apollo_runtime
 
 }

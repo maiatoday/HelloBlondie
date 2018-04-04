@@ -1,5 +1,5 @@
 object Versions {
-    val gradlePluginVersion = "3.2.0-alpha08"
+    val gradlePluginVersion = "3.2.0-alpha09"
     val apolloVersion = "0.4.4"
 
     val okhttpVersion =   "3.9.0"

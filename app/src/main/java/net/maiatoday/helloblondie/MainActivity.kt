@@ -6,17 +6,15 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-
+import com.apollographql.apollo.ApolloCall
+import com.apollographql.apollo.api.Response
+import com.apollographql.apollo.exception.ApolloException
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import net.maiatoday.helloblondie.data.Api
-import net.maiatoday.helloblondie.data.Model
+import net.maiatoday.helloblondie.data.ApolloApi
 import net.maiatoday.permissions.AppPermission
 import net.maiatoday.permissions.handlePermission
 import net.maiatoday.permissions.requestPermission
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity() {
@@ -65,18 +63,25 @@ class MainActivity : AppCompatActivity() {
 
     fun doSearch(searchString: String) {
         if (!searchString.isEmpty()) {
-            val call = Api.create().hitCountCheck("query", "json", "search", searchString)
-            call.enqueue(object : Callback<Model.Result> {
-                override fun onResponse(call: Call<Model.Result>?, response: Response<Model.Result>?) {
-                    val result = response?.body() as Model.Result
-                    txtAnytime.text = result.query.search[0].title + " hitcount=" + result.query.searchinfo.totalhits + " pageId=" + result.query.search[0].pageid
+
+            ApolloApi.apolloClient.query(PageSummaryQuery.builder()
+                    .search(searchString)
+                    .build()).enqueue(object : ApolloCall.Callback<PageSummaryQuery.Data>() {
+                override fun onResponse(response: Response<PageSummaryQuery.Data>) {
+
+                    // onResponse returns on a background thread. If you want to make UI updates make sure they are done on the Main Thread.
+                    this@MainActivity.runOnUiThread {
+                        val title = response.data()?.page()?.summary()?.displaytitle ?: ""
+                        val extract = response.data()?.page()?.summary()?.extract ?: ""
+                        txtAnytime.text = extract
+
+                    }
                 }
 
-                override fun onFailure(call: Call<Model.Result>?, t: Throwable?) {
+                override fun onFailure(e: ApolloException) {
                     txtAnytime.text = "oops"
                 }
             })
-
         }
     }
 
